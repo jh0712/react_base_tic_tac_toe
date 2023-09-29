@@ -29,6 +29,7 @@ function Board() {
     }else{
         status = 'Next Player: '+ (xIsTheNext ? "X":"O");
     }
+    // write this as a function ,because we need do those thing after user click button.
     function handleClick(i) {
         // if i has value or someone win this game
         // do nothing
