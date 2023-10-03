@@ -29,20 +29,26 @@ function Board({xIsNext,squares,onPlay}) {
     let squareList = squares.map((value,index)=>{
         return  <Square key={index} value={squares[index]} onSquareClick={() => handleClick(index)}></Square>
     });
-    const squarContainer = new Array(3).fill().map((_, idx) => {
-        return <div key={idx}>
+    const squareContainer = new Array(3).fill(1).map((_, idx) => {
+        return <div key={idx} className="board-row">
             {squares.slice(idx *3, 3 * idx + 3).map((square, sIdx) => {
                 let count =idx * 3 + sIdx;
                 return <Square value={square} key={count} onSquareClick={() => handleClick(count)} />
             })}
         </div>
     })
+
     return (
         <div>
             <div className="status">{status}</div>
-
-            {squarContainer}
+            <div className="board-row">method 1</div>
+            {squareContainer}
+            <div className="board-row">{'-'.repeat(20)}</div>
+            <div className="board-row">method 2</div>
+            {squareList}
+            <div className="board-row">{'-'.repeat(20)}</div>
         </div>
+
     );
 }
 
