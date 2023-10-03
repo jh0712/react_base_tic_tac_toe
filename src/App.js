@@ -17,7 +17,8 @@ function Board({xIsNext,squares,onPlay}) {
             return;
         }
         // write this on following because do not wast memory
-        const nextSquares = squares.slice();
+        // const nextSquares = squares.slice();
+        const nextSquares = [...squares];
         if (xIsNext) {
             nextSquares[i] = 'X';
         } else {
@@ -99,14 +100,21 @@ export default function Game() {
     }
     const moves = history.map((squares, move) => {
         let description;
+        let button;
         if (move > 0) {
             description = 'Go to move #' + move;
         } else {
             description = 'Go to game start';
         }
+        if(move === history.length-1){
+            button = <h4 onClick={() => jumpTo(move)}>{description}</h4>;
+        }else{
+            button = <button onClick={() => jumpTo(move)}>{description}</button>;
+        }
+
         return (
             <li key={move}>
-                <button onClick={() => jumpTo(move)}>{description}</button>
+                {button}
             </li>
         );
     });

@@ -6,3 +6,5 @@
     - Indicates when a player has won the game,
     - Stores a game’s history as a game progresses, 
     - Allows players to review a game’s history and see previous versions of a game’s board.
+  - extra
+    - For the current move only, show “You are at move #…” instead of a button.
