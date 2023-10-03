@@ -8,3 +8,4 @@
     - Allows players to review a game’s history and see previous versions of a game’s board.
   - extra
     - For the current move only, show “You are at move #…” instead of a button.
+    - Rewrite Board to use two loops to make the squares instead of hardcoding them.
