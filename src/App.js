@@ -40,7 +40,7 @@ function Board({xIsNext,squares,onPlay}) {
     let arrIndex = -1;
     const squareContainer2 = new Array(3).fill(0).map((_,idx2)=>{
         return <div key={idx2} className="board-row">
-            {squares.slice(idx2*3,3*idx2+3).map((square,sIdx)=>{
+            {squares.slice(idx2*3,3*idx2+3).map((square,_)=>{
                 arrIndex += 1;
                 let temp = arrIndex;
                 // {() => handleClick(arrIndex)}
@@ -103,38 +103,49 @@ export default function Game() {
     // when 1 then xIsNext = false
     const [history, setHistory] = useState([Array(9).fill(null)]);
     const [currentMove, setCurrentMove] = useState(0);
+    const [order, setOrder] = useState(true);
     const xIsNext = currentMove % 2 === 0;
     const currentSquares = history[currentMove];
 
     function handlePlay(nextSquares) {
         const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
-        console.log(nextSquares)
         setHistory(nextHistory);
         setCurrentMove(nextHistory.length - 1);
     }
     function jumpTo(nextMove) {
         setCurrentMove(nextMove);
     }
+    function changeOrder() {
+        setOrder(!order);
+    }
+
     const moves = history.map((squares, move) => {
-        let description;
-        let button;
+        // when order true asc 1,2,3,4
+        // when order false desc 4,3,2,1
+        // 0 will be same
+        let description,button, moveNumber;
+        moveNumber = 0;
         if (move > 0) {
-            description = 'Go to move #' + move;
+            moveNumber = order? move: history.length -move ;
+            description = 'Go to move #' + moveNumber;
         } else {
             description = 'Go to game start';
         }
-        if(move === history.length-1){
-            button = <h4 onClick={() => jumpTo(move)}>{description}</h4>;
+        let textShowIndex;
+        textShowIndex = order ? history.length-1 : 1;
+        if(move === textShowIndex){
+            button = <h4 onClick={() => jumpTo(moveNumber)}>{description}</h4>;
         }else{
-            button = <button onClick={() => jumpTo(move)}>{description}</button>;
+            button = <button onClick={() => jumpTo(moveNumber)}>{description}</button>;
         }
 
         return (
-            <li key={move}>
+            <div key={move}>
                 {button}
-            </li>
+            </div>
         );
     });
+
     return (
         <div>
             <h1> this is from game function</h1>
@@ -144,6 +155,9 @@ export default function Game() {
                 </div>
                 <div className="game-info">
                     <ul>{moves}</ul>
+                </div>
+                <div className="game-info">
+                    <button  onClick={()=>changeOrder()}>change order</button>
                 </div>
             </div>
         </div>
