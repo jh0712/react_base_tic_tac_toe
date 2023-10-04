@@ -29,7 +29,7 @@ function Board({xIsNext,squares,onPlay}) {
     let squareList = squares.map((value,index)=>{
         return  <Square key={index} value={squares[index]} onSquareClick={() => handleClick(index)}></Square>
     });
-    const squareContainer = new Array(3).fill(1).map((_, idx) => {
+    const squareContainer = new Array(3).fill(0).map((_, idx) => {
         return <div key={idx} className="board-row">
             {squares.slice(idx *3, 3 * idx + 3).map((square, sIdx) => {
                 let count =idx * 3 + sIdx;
@@ -37,7 +37,18 @@ function Board({xIsNext,squares,onPlay}) {
             })}
         </div>
     })
-
+    let arrIndex = -1;
+    const squareContainer2 = new Array(3).fill(0).map((_,idx2)=>{
+        return <div key={idx2} className="board-row">
+            {squares.slice(idx2*3,3*idx2+3).map((square,sIdx)=>{
+                arrIndex += 1;
+                let temp = arrIndex;
+                // {() => handleClick(arrIndex)}
+                // if use arrIndex , react rerender will call arrIndex out of this function.
+                return <Square value={square} key={arrIndex} onSquareClick={() => handleClick(temp)} />
+            })}
+        </div>
+    })
     return (
         <div>
             <div className="status">{status}</div>
@@ -47,6 +58,8 @@ function Board({xIsNext,squares,onPlay}) {
             <div className="board-row">method 2</div>
             {squareList}
             <div className="board-row">{'-'.repeat(20)}</div>
+            <div className="board-row">method 3</div>
+            {squareContainer2}
         </div>
 
     );
@@ -95,6 +108,7 @@ export default function Game() {
 
     function handlePlay(nextSquares) {
         const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+        console.log(nextSquares)
         setHistory(nextHistory);
         setCurrentMove(nextHistory.length - 1);
     }
