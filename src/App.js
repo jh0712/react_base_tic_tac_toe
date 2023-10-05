@@ -17,7 +17,7 @@ function Board({xIsNext, squares, onPlay}) {
         // const nextSquares = squares.slice();
         const nextSquares = [...squares];
         nextSquares[i] = xIsNext ? 'X' : 'O';
-        onPlay(nextSquares);
+        onPlay(nextSquares, i, nextSquares[i]);
     }
 
     let winnerIndex = winner ? winner.indx : null;
@@ -51,7 +51,7 @@ function Board({xIsNext, squares, onPlay}) {
                 // if use arrIndex , react rerender will call arrIndex out of this function.
                 if (winnerIndex && winnerIndex.includes(arrIndex)) {
                     return <Square value={square} key={arrIndex} onSquareClick={() => handleClick(temp)} color={'red'}/>
-                }else{
+                } else {
                     return <Square value={square} key={arrIndex} onSquareClick={() => handleClick(temp)}/>
                 }
 
@@ -114,12 +114,16 @@ export default function Game() {
     // when 1 then xIsNext = false
     const [history, setHistory] = useState([Array(9).fill(null)]);
     const [currentMove, setCurrentMove] = useState(0);
+    const [location, setLocation] = useState([{textIndex: null,whoClick: null}]);
     const [order, setOrder] = useState(true);
     const xIsNext = currentMove % 2 === 0;
     const currentSquares = history[currentMove];
 
-    function handlePlay(nextSquares) {
+    function handlePlay(nextSquares, textIndex, whoClick) {
         const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
+        const nowLocation = {textIndex: textIndex, whoClick: whoClick};
+        const cloneLocation = [...location.slice(0, currentMove + 1),nowLocation];
+        setLocation(cloneLocation);
         setHistory(nextHistory);
         setCurrentMove(nextHistory.length - 1);
     }
@@ -137,6 +141,8 @@ export default function Game() {
         // when order false desc 4,3,2,1
         // 0 will be same
         let description, button, moveNumber;
+        console.log(history);
+        console.log(location);
         moveNumber = 0;
         if (move > 0) {
             moveNumber = order ? move : history.length - move;
