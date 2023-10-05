@@ -146,6 +146,7 @@ export default function Game() {
         moveNumber = 0;
         if (move > 0) {
             moveNumber = order ? move : history.length - move;
+            // todo need to change to row,col
             description = 'Go to move #' + moveNumber;
         } else {
             description = 'Go to game start';
