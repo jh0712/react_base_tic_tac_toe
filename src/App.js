@@ -109,7 +109,7 @@ function calculateWinner(squares) {
 }
 
 
-export default function Game() {
+export default function TicTacToeGame() {
     // when 0 then xIsNext = true
     // when 1 then xIsNext = false
     const [history, setHistory] = useState([Array(9).fill(null)]);
@@ -180,6 +180,5 @@ export default function Game() {
                 </div>
             </div>
         </div>
-
     );
 }
