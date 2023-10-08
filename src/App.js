@@ -141,13 +141,15 @@ export default function Game() {
         // when order false desc 4,3,2,1
         // 0 will be same
         let description, button, moveNumber;
-        console.log(history);
-        console.log(location);
         moveNumber = 0;
         if (move > 0) {
             moveNumber = order ? move : history.length - move;
             // todo need to change to row,col
-            description = 'Go to move #' + moveNumber;
+            let posIdx = location[moveNumber].textIndex;
+            let col = posIdx %3;
+            let row = parseInt(posIdx/3);
+            let showPos= ` [${row},${col}] `;
+            description = 'Go to move #' + moveNumber +' '+location[moveNumber].whoClick  +showPos;
         } else {
             description = 'Go to game start';
         }
